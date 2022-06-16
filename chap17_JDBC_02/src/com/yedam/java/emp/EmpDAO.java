@@ -19,8 +19,8 @@ public class EmpDAO {
 	// -> 즉 데이터 양이 방대해질수록 그 테이블에 따른 DAO가 계속 생성 -> 많은 메모리 차지 그래서 (3.에서 계속)
 	private static EmpDAO empDAO = null;
 
-	private EmpDAO() {
-	} // 2.empDAO가
+	private EmpDAO() {} // 2.empDAO가
+	
 
 	public static EmpDAO getInstance() { // 3. public static EmpDAO getInstance()를 생성했을때만
 		if (empDAO == null) {
@@ -48,7 +48,7 @@ public class EmpDAO {
 			Class.forName(jdbc_driver);
 			// 2. DB 서버 접속하기 --가 하나의 메소드가 될 것
 			conn = DriverManager.getConnection(oracle_url, connectedId, connectedPwd);
-		} catch (ClassNotFoundException e1) {
+		} catch (ClassNotFoundException e) {
 			System.out.println("JDBC Driver 로딩 실패");
 		} catch (SQLException e) {
 			System.out.println("DB 접속 실패");
@@ -137,9 +137,11 @@ public class EmpDAO {
 	public Employee selectOne(int employeeId) { // Employee클래스의 employeeID를 매개변수로 가지는 selectOne메소드 만들기
 		Employee emp = null; // 정보가 없으면 null로 반환하시오.
 		try {
+			connect();//연결부터 하고
 			String sql = "SELECT * FROM employees WHERE employee_id =" + employeeId;
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
+			
 			if (rs.next()) { // 반환되는 값이 하나여야 하므로 보통 If문 처리
 				emp = new Employee(); // emp 값이 있을 때 객체 생성
 				emp.setEmployeeId(rs.getInt("employee_id"));
@@ -170,6 +172,8 @@ public class EmpDAO {
 
 			// sql에 다음의 값들 입력
 			String sql = "INSERT INTO employees VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			pstmt= conn.prepareStatement(sql);
+			
 			pstmt.setInt(1, emp.getEmployeeId());
 			pstmt.setString(2, emp.getFirstName());// first_name
 			pstmt.setString(3, emp.getLastName());// last_name
@@ -201,7 +205,7 @@ public class EmpDAO {
 	public void update(Employee emp) {
 		try {
 		connect();//db연결
-		String sql = "UPDATE employees SET salary = ? WEHRE employee_id = ?";
+		String sql = "UPDATE employees SET salary = ? WHERE employee_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		
 		pstmt.setInt(2,  emp.getEmployeeId());
@@ -223,7 +227,7 @@ public class EmpDAO {
 	public void delete(int employeeId) {
 		try {
 			connect();//db연결
-			String sql = "DELETE FROM employees WEHRE employee_id =" + employeeId;
+			String sql = "DELETE FROM employees WHERE employee_id =" + employeeId;
 			pstmt = conn.prepareStatement(sql);
 
 			int result = pstmt.executeUpdate();
