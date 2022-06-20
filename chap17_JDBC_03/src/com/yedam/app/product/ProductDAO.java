@@ -26,13 +26,14 @@ public class ProductDAO extends DAO {
 			
 			//sql문 구성
 			String sql = 
-					"INSERT INTO product VALUES (product_seq.nextval, ?, ?)"; //시퀀스 넣어줄 때 : (아이디가 들어갈 자리) product_seq.nextval 시퀀스를 써주면 됨
+					"INSERT INTO products VALUES (product_seq.nextval, ?, ?)"; //시퀀스 넣어줄 때 : (아이디가 들어갈 자리) product_seq.nextval 시퀀스를 써주면 됨
 					//INSERT INTO product(x) VALUES (?, ?, ?) 원래는 컬럼을 지정하려면 product뒤 ()안에 써줘야함
 		
 			ppstmt = conn.prepareStatement(sql);
 			ppstmt.setString(1, product.getProductName());
 			ppstmt.setInt(2,  product.getProductPrice());
 			
+			//결과 뽑아내기
 			int result = ppstmt.executeUpdate();
 			
 			if (result > 0) {
@@ -53,12 +54,13 @@ public class ProductDAO extends DAO {
 		try {
 			connect();
 			
-			String sql = "UPDATE product SET product_price =? WHERE product_id = ?";
+			String sql = "UPDATE products SET product_price =? WHERE product_id = ?";
 			ppstmt = conn.prepareStatement(sql);
 			
 			ppstmt.setInt(1, product.getProductPrice());
 			ppstmt.setInt(2, product.getProductId());
 			
+			//결과 뽑아내기
 			int result = ppstmt.executeUpdate();
 			
 			if (result > 0) {
@@ -78,12 +80,13 @@ public class ProductDAO extends DAO {
 			connect();
 			//prepareStatement 쓸 때 보통 물음표 쓰고 (컬럼명이랑 타입 정확히 지정안해줘도 알아서 해주기때문에 편함)
 			//stmt는 물음표 안쓰고 정확히 지정해줌. 아래 단건조회 참고
-			String sql = "DELETE FROM product WHERE product_id =" + productId;
+			String sql = "DELETE FROM products WHERE product_id =" + productId;
 			ppstmt = conn.prepareStatement(sql);
 //			ppstmt.setInt(1,  productId); --이거 없어도 돌아가나 테스트해보기
 			
 			int result = ppstmt.executeUpdate();
 			
+			//결과 뽑아내기
 			if (result > 0) {
 				System.out.println("삭제 완료");
 			} else {
@@ -109,7 +112,7 @@ public class ProductDAO extends DAO {
 		
 		try {
 			connect(); //연결부터
-			String sql = "SELECT * FROM product WHERE product_name = ?"; //stmt는 물음표 안쓰고 정확히 지정해줌.
+			String sql = "SELECT * FROM products WHERE product_name = ?"; //stmt는 물음표 안쓰고 정확히 지정해줌.
 																		 //String타입은 + ProductName으로 받으면 못 읽어 들여서 prepareStatement쓰는게 편함
 			ppstmt = conn.prepareStatement(sql);
 			ppstmt.setString(1,productName);
@@ -135,7 +138,7 @@ public class ProductDAO extends DAO {
 		
 		try {
 			connect(); //연결부터
-			String sql = "SELECT * FROM product WHERE product_id =" + productId; //stmt는 물음표 안쓰고 정확히 지정해줌.
+			String sql = "SELECT * FROM products WHERE product_id =" + productId; //stmt는 물음표 안쓰고 정확히 지정해줌.
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			//반환되는 값을 하나만 설정할때는 if문으로 사용. (원래는 이렇게 하지만 이렇게 쓰면 코드가 복잡해지므로 여기서는 while문을 써줌.)
@@ -160,7 +163,7 @@ public class ProductDAO extends DAO {
 		List<Product> list = new ArrayList<Product>();
 		try {
 			connect();
-			String sql = "SELECT * FROM product ORDER BY product_id";
+			String sql = "SELECT * FROM products ORDER BY product_id";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {

@@ -42,18 +42,22 @@ public class DAO {
 
 		public void dbConfig() { // Properties라는 파일로 별도 관리
 			String resource = "config/db.properties"; // config/db.properties 파일에 있는 정보 가져오겠다.
-			Properties properties = new Properties(); // properties 객체 생성
+			Properties properties = new Properties(); // properties 객체 생성 정확한 위치를 파악하기 위해 생성하는 뉴연산자
 
 			try {
 				String filePath // filePath가 진짜 물리적 파일 위치를 가져옴. 그리고 FileInputStream으로 접근
-						= ClassLoader.getSystemClassLoader().getResource(resource).getPath();
-				properties.load(new FileInputStream(filePath)); // properties가 읽어들이면 기본틀을 가진 값을 알아서 읽어냄.
+						= ClassLoader.getSystemClassLoader() //시스템에서
+						.getResource(resource) //리소스의
+						.getPath(); //경로를 가져와라
+				properties.load(new FileInputStream(filePath)); // 원래는 properties만해도 기본틀을 가진 값을 알아서 읽어낼 수 있지만
+																// properties.load까지 설정 해줘야 키와 벨류가 가지고 오는 값을 읽어냄
 																// 경로가 정확하지 않다면 ClassLoader.getSystemClassLoader()를 통해서 경로
 																// 찾고 아니라면 new FileInputStream(filePath) <-이렇게 직접 넣어줘도 됨.
 			} catch (IOException e) {
 				e.printStackTrace(); // 오류가 있다면 어떤 오류인지 표시해주는 것
 			}
-			// 이 메소드로 오라클 정보 가져올 수 있음.
+			// 이 메소드로 오라클 정보 가져올 수 있음
+			// 하드코딩이 없어지는 추세라 properties 등으로 관리를 함. 변경되는 정보에 대해 따로 코드 수정 없이 파일만 수정할 수 있음. 
 			jdbc_driver = properties.getProperty("driver");
 			oracle_url = properties.getProperty("url");
 			connectedId = properties.getProperty("id");
