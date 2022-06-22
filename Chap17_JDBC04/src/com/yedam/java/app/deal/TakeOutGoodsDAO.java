@@ -72,13 +72,13 @@ public class TakeOutGoodsDAO extends DAO {
 		} return isSelected;
 	}
 	
-	// 2-2 (단건) 출고 수량
+	// 2-2 (단건) 출고량
 	public int SelectAmount(int productId) {
 		int amount = 0;
 		try {
 			connect();
 			//프로덕트 수량의 합계를 가져와라.(NULL값 대신 0 넣을것), 테잌아웃 굿즈로 부터, product_id가 00값인 것의
-			String sql = "SELECT NVL(SUM(product_amonut, 0) AS sum FROM take_out_goods WHERE product_id = " + productId;
+			String sql = "SELECT NVL(SUM(product_amount), 0) AS sum FROM take_out_goods WHERE product_id = " + productId;
 			
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
@@ -97,21 +97,21 @@ public class TakeOutGoodsDAO extends DAO {
 	
 	// 3. 전체조회
 	
-	// 3-1 (전체) 현재까지 입고된
+	// 3-1 (전체) 전체 출고내역
 		public List<DealInfo> selectAll(){
 			List<DealInfo> list = new ArrayList<>();
 			
 			try {
 				connect();
 				
-				String sql = "SELECT t.deal_date, t.product_id, p.product_id, t.product_amount"
-						+ " FROM product p JOIN take_out_goods t"
+				String sql = "SELECT t.deal_date, t.product_id, p.product_name, t.product_amount"
+						+ " FROM products p JOIN take_out_goods t"
 						+ " ON p.product_id = t.product_id"
 						+ " ORDER BY t.deal_date";
 		
 				stmt = con.createStatement();
 				
-				int result = stmt.executeUpdate(sql);
+				rs = stmt.executeQuery(sql);
 				
 				while(rs.next()) {
 					//list에 담아질 참조변수 선언
@@ -131,7 +131,7 @@ public class TakeOutGoodsDAO extends DAO {
 		}
 		
 		
-	// 3-2 (전체) 해당 날짜에 입고된 내역
+	// 3-2 (전체) 해당 날짜에 출고된 내역
 	public List<DealInfo> selectAll(Date dealDate) {
 		List<DealInfo> list = new ArrayList<>();
 		
@@ -139,7 +139,7 @@ public class TakeOutGoodsDAO extends DAO {
 			connect();
 			
 			String sql = "SELECT t.deal_date, t.product_id, p.product_id, t.product_amount"
-					+ " FROM product p JOIN take_out_goods t"
+					+ " FROM products p JOIN take_out_goods t"
 					+ " ON p.product_id = t.product_id"
 					+ " WHERE deal_date = ?"
 					+ " ORDER BY t.deal_date";
@@ -175,7 +175,7 @@ public class TakeOutGoodsDAO extends DAO {
 			connect();
 			
 			String sql = "SELECT t.deal_date, t.product_id, p.product_id, t.product_amount"
-					+ " FROM product p JOIN take_out_goods t"
+					+ " FROM products p JOIN take_out_goods t"
 					+ " ON p.product_id = t.product_id"
 					+ " WHERE product_id = ?"
 					+ " ORDER BY t.deal_date";

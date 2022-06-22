@@ -105,13 +105,13 @@ public class ReceivingGoodsDAO extends DAO {
 			connect();
 			
 			String sql = "SELECT r.deal_date, r.product_id, p.product_name, r.product_amount" //SELECT해와라
-			+ " FROM product p JOIN receiving_goods r" //프로덕트랑 리시빙굿즈 조인해서
+			+ " FROM products p JOIN receiving_goods r" //프로덕트랑 리시빙굿즈 조인해서
 			+ " ON p.product_id = r.product_id"
 			+ " ORDER BY r.deal_date";//프로덕트의 프로덕트 아이디랑 리시빙프로덕트 아이디 컬럼이랑 같다. 그리고 거래 날짜로 정렬하셈
 	
 			stmt = con.createStatement();
 			
-			int result = stmt.executeUpdate(sql);
+			rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {
 				//list에 담아질 참조변수 선언
@@ -138,7 +138,7 @@ public class ReceivingGoodsDAO extends DAO {
 			connect();
 			
 			String sql = "SELECT r.deal_date, r.product_id, p.product_name, r.product_amount" //SELECT해와라
-					+ " FROM product p JOIN receiving_goods r" //프로덕트랑 리시빙굿즈 조인해서
+					+ " FROM products p JOIN receiving_goods r" //프로덕트랑 리시빙굿즈 조인해서
 					+ " ON p.product_id = r.product_id"//프로덕트의 프로덕트 아이디랑 리시빙프로덕트 아이디 컬럼이랑 같다.
 					+ " WHERE deal_date = ?" // 거래날짜가 ? 일 때
 					+ " ORDER BY r.deal_date"; // 그리고 거래 날짜로 정렬하셈
@@ -147,8 +147,6 @@ public class ReceivingGoodsDAO extends DAO {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setDate(1, dealDate);
 			rs = pstmt.executeQuery();
-			
-			int result = pstmt.executeUpdate();
 			
 			while(rs.next()) {
 				//list에 담아질 참조변수 선언
@@ -176,7 +174,7 @@ public class ReceivingGoodsDAO extends DAO {
 			connect();
 			
 			String sql = "SELECT r.deal_date, r.product_id, p.product_name, r.product_amount" //SELECT해와라
-			+ " FROM product p JOIN receiving_goods r" //프로덕트랑 리시빙굿즈 조인해서
+			+ " FROM products p JOIN receiving_goods r" //프로덕트랑 리시빙굿즈 조인해서
 			+ " ON p.product_id = r.product_id"//프로덕트의 프로덕트 아이디랑 리시빙프로덕트 아이디 컬럼이랑 같다.
 			+ " WHERE product_id = ?"
 			+ " ORDER BY r.deal_date"; // 그리고 거래 날짜로 정렬하셈
@@ -185,7 +183,6 @@ public class ReceivingGoodsDAO extends DAO {
 			pstmt.setInt(1, productId);
 			rs = pstmt.executeQuery();
 	
-			
 			while(rs.next()) {
 				//list에 담아질 참조변수 선언
 				DealInfo dealInfo = new DealInfo();

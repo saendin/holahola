@@ -26,9 +26,9 @@ public class StockManagement {
 	}
 
 	private void menuPrint() {
-		System.out.println("===============================================");
+		System.out.println("=================================================");
 		System.out.println("1.제품등록  2.입고  3.출고  4.제품재고  5.전체재고  9.종료");
-		System.out.println("===============================================");
+		System.out.println("=================================================");
 	}
 
 	private void inputMenu() {

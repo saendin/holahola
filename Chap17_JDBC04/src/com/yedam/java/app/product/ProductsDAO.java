@@ -14,7 +14,7 @@ public class ProductsDAO extends DAO {
 	}
 
 	public static ProductsDAO getInstance() {
-		if (productsDAO != null) {
+		if (productsDAO == null) {	//productsDAO가 null일때 겟인스턴스로 값 받아옴.
 			productsDAO = new ProductsDAO();
 		}
 		return productsDAO;
@@ -28,7 +28,7 @@ public class ProductsDAO extends DAO {
 
 			// sql 구성
 			// 쿼리통해서 값 통해서 넣으면 DEFAULT 구문이 돌지 않으므로 ?가 아닌 값을 직접 입력해줘야함
-			String sql = "INSERT INTO products (product_id, product_name, product_price) VALUES (product_sez.nextval, ? ?)";
+			String sql = "INSERT INTO products (product_id, product_name, product_price) VALUES (products_seq.nextval, ?, ?)";
 					
 //			"VALUES (product_sez.nextval, ? ?) 에 대입될 값 입력
 			pstmt = con.prepareStatement(sql);
@@ -108,7 +108,7 @@ public class ProductsDAO extends DAO {
 			String sql = "DELETE FROM products WHERE product_id = " + productId; // 줄 나눠쓸거면 끝 공백 신경 써야함. -> 보기에만 줄이 바뀌는
 																					// 것. ex) DELETE FROM product 뒤에 꼭
 			stmt = con.createStatement();
-
+		
 			// 결과 뽑아내기
 			int result = stmt.executeUpdate(sql);
 
@@ -133,11 +133,10 @@ public class ProductsDAO extends DAO {
 		try {
 			connect();
 
-			String sql = "SELECT * FROM products WHERE product_name =" + productName; // primary값이 아니라 중복 값 들어갈 수 있음.
+			String sql = "SELECT * FROM products WHERE product_name = '" + productName + "'"; // primary값이 아니라 중복 값 들어갈 수 있음.
 																						// 세심하게 조건 주던가 조심해서 등록하던가
 			stmt = con.createStatement();
-
-			int result = stmt.executeUpdate(sql);
+			rs = stmt.executeQuery(sql);
 
 			// if문 - 한개의 값 가지고 오기.
 			// while에서도 한개만 가지고 오긴 하지만 대신 가장 최신걸로 덮어씀 - 쿼리상에서는 단건조회가 아니고, 자바에서 값을 제한해서 그렇게
@@ -174,8 +173,7 @@ public class ProductsDAO extends DAO {
 			String sql = "SELECT * FROM products ORDER BY product_id"; // 전체조회에서는 데이터가 많아질수록 순서가 엉망이되므로 정렬해주면 좋음.
 
 			stmt = con.createStatement();
-
-			int result = stmt.executeUpdate(sql);
+			rs = stmt.executeQuery(sql);
 
 			// 데이터 몇개인지 모르니까 while문 사용
 			while (rs.next()) {
