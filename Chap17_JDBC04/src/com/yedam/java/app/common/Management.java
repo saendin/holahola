@@ -8,7 +8,6 @@ import com.yedam.java.app.deal.TakeOutGoodsDAO;
 import com.yedam.java.app.product.ProductInfoManagement;
 import com.yedam.java.app.product.ProductsDAO;
 
-//Management를 부모프로그램으로 하는 섭프로그램 (재고 - 입/출고) 만들고임
 public class Management {
 	// 필드
 	protected Scanner sc = new Scanner(System.in);

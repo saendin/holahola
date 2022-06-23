@@ -1,6 +1,11 @@
 package com.yedam.app.books;
 
 //VO 클래스
+
+import lombok.*;
+
+@Getter
+@Setter
 public class Books {
    // 필드
    private String bookTitle;// 책제목
@@ -8,39 +13,40 @@ public class Books {
    private String story;// 내용
    private int stock;// 재고1
 
+   
    // getter setter
-   public String getBookTitle() {
-      return bookTitle;
-   }
+//   public String getBookTitle() {
+//      return bookTitle;
+//   }
+//
+//   public void setBookTitle(String bookTitle) {
+//      this.bookTitle = bookTitle;
+//   }
+//
+//   public String getBookWriter() {
+//      return bookWriter;
+//   }
+//
+//   public void setBookWriter(String bookWriter) {
+//      this.bookWriter = bookWriter;
+//   }
+//
+//   public String getStory() {
+//      return story;
+//   }
+//
+//   public void setStory(String story) {
+//      this.story = story;
+//   }
+//
+//   public int getStock() {
+//      return stock;
+//   }
+//
+//   public void setStock(int stock) {
+//      this.stock = stock;
 
-   public void setBookTitle(String bookTitle) {
-      this.bookTitle = bookTitle;
-   }
-
-   public String getBookWriter() {
-      return bookWriter;
-   }
-
-   public void setBookWriter(String bookWriter) {
-      this.bookWriter = bookWriter;
-   }
-
-   public String getStory() {
-      return story;
-   }
-
-   public void setStory(String story) {
-      this.story = story;
-   }
-
-   public int getStock() {
-      return stock;
-   }
-
-   public void setStock(int stock) {
-      this.stock = stock;
-
-   }
+//   }
    @Override
    public String toString() {
       String str = "";
