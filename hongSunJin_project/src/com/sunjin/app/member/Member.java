@@ -6,6 +6,9 @@ import lombok.*;
 public class Member {
 	private String id;
 	private String pwd;
+	private String name;
+	private String email;
+	private int phone;
 	
 	//0: 관리자 / 1: 일반
 	private int role;

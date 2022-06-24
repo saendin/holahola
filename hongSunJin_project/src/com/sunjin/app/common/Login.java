@@ -1,5 +1,6 @@
 package com.sunjin.app.common;
 
+
 import java.util.Scanner;
 
 import com.sunjin.app.member.Member;
@@ -7,6 +8,7 @@ import com.sunjin.app.member.MemberDAO;
 
 public class Login {
 	private Scanner sc = new Scanner(System.in);
+	protected MemberDAO mDAO = MemberDAO.getInstance();
 	private static Member Login = null;
 
 	public static Member getLogin() {
@@ -23,7 +25,7 @@ public class Login {
 				// 로그인
 				login();
 			} else if (menuNo == 2) {
-				// 종료
+				// 회원가입
 				signUp();
 			} else if (menuNo == 2) {
 				// 종료
@@ -35,9 +37,12 @@ public class Login {
 	}
 
 	private void menuPrint() {
-		System.out.println("=^=^=^=^=^=^=^=^=^=^=");
-		System.out.println("1 입장  2 회원가입  3 종료");
-		System.out.println("=^=^=^=^=^=^=^=^=^=^=");
+		System.out.println();
+		System.out.println("     럭셔리모먼트에 오신것을 환영합니다!    ");
+		System.out.println();
+		System.out.println("=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=");
+		System.out.println("   1 입장     2 회원가입     3 종료 ");
+		System.out.println("=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=");
 	}
 	
 	private int menuSelect() {
@@ -55,17 +60,19 @@ public class Login {
 		// 로그인 되는 권한에 따라 실행되는 클래스가 다르도록
 		// 아이디와 비밀번호 입력
 		System.out.println("로그인 해주세요!");
-		Member inputInfo = inputMember();
+		System.out.println();
+		Member inputIdPwd = inputMember();
 
 		// 로그인 시도
-		Login = MemberDAO.getInstance().selectOne(inputInfo);
+		Login = MemberDAO.getInstance().selectRole(inputIdPwd);
 
-		// 실패할 경우 종료(메뉴로 리턴)
-		if (Login == null)
+		// 실패할 경우 종료(첫 화면으로 리턴)
+		if (Login == null) {
+			System.out.println("로그인 실패");
 			return;
-
-		// 성공할 경우에만 프로그램 -> 매니지먼트 실행
-		new Management().run();
+		}
+		// 성공할 경우에만 프로그램 -> Sys매니지먼트 실행
+		new LogInSys().run();
 	}
 
 	private Member inputMember() {
@@ -84,7 +91,7 @@ public class Login {
 	}
 
 	private void exit() {
-		System.out.println("프로그램 종료");
+		System.out.println("프로그램을 종료합니다");
 	}
 	private void showInputError() {
 		System.out.println("잘못된 입력입니다");

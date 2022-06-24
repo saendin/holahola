@@ -15,7 +15,8 @@ public class ProductInfoManagement extends Management {
 			int menuNo = menuSelect();
 			if (menuNo == 1 && role) {
 				// 제품 정보 등록
-				insertProductInfo(); // 이 안에서 간단한 기능이 실행되는 것이 아니라 프로그램을 실행시키도록
+				// 이 안에서 간단한 기능이 실행되는 것이 아니라 DAO(프로그램을)를 실행시키도록
+				insertProductInfo();
 			} else if (menuNo == 2 && role) {
 				// 제품 정보 수정 (가격)
 				updateProductInfo();
@@ -29,7 +30,7 @@ public class ProductInfoManagement extends Management {
 				// 전체 정보 조회
 				selectAll();
 			} else if (menuNo == 9) {
-				// 뒤로가기 - 종료되면 inputProductInfo()로 돌아감.
+				// 뒤로가기 - 종료되면 insertProductInfo()로 돌아감.
 				back();
 				break;
 			} else {
@@ -91,7 +92,7 @@ public class ProductInfoManagement extends Management {
 			product.setProductName(name); // productName 받아옴
 		}
 
-		System.out.println("기존 가격> " + product.getProductName());
+		System.out.println("기존 가격> " + product.getProductPrice());
 		System.out.println("수정 (수정하지 않을 경우 -1 입력)> ");
 		
 		int price = Integer.parseInt(sc.nextLine());
@@ -132,11 +133,12 @@ public class ProductInfoManagement extends Management {
 			System.out.println("등록된 정보가 없습니다.");
 			return;
 		}
+		
 		// -2 입고내역에서 검색 (fk constraint가 들어가있어서 거기서 가져오도록)
 		boolean isSelected = rDAO.selectInfo(product.getProductId());
 		// DB에서 삭제
-		if (!isSelected) { // isSelected는 트루값이 나오면 삭제가 안됨. 여기서는 반전연산자 써서 실행시키도록 해줌. 마약에 isSelected쓸거면
-							// sysout먼저 나오게 하고 else에 delete 넣어주면 됨.
+		if (!isSelected) { // isSelected는 트루값이 나오면 삭제가 안됨. 여기서는 반전연산자 써서 실행시키도록 해줌.
+			//만약에 isSelected쓸거면 sysout먼저 나오게 하고 else에 delete 넣어주면 됨.
 			// isSelected = true
 			// System.out.println("만약에 거래내역이 있어도 삭제하시겠습니까?"); 아니요시엔 다시 메뉴 선택창으로 돌아가도록
 			// 번호 받고 (스캔으로 받기)

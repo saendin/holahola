@@ -11,7 +11,7 @@ public class Product {
 	private String brand;
 	private int price;
 	private int stock;
-	private int category; // 1번 의류, 2번 가방, 3번 악세서리
+	private int category; // 1번 가방, 2번 의류, 3번 신발, 4번 Acc
 
 	@Override
 	public String toString() {

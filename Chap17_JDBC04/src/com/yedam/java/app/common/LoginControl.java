@@ -62,7 +62,7 @@ public class LoginControl {
 		Member inputInfo = inputMember();
 		
 		//로그인 시도
-		LoginInfo = MembersDAO.getInstance().selectOne(inputInfo);
+		LoginInfo = MembersDAO.getInstance().selectRole(inputInfo);
 		
 		//실패할 경우 종료(메뉴로 리턴)
 		if(LoginInfo == null) return;

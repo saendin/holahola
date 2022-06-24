@@ -8,10 +8,10 @@ import lombok.*;
 public class StockInfo {
 
 	//재고정보
-	private Date stockDate;
 	private int isn;
 	private String productName;
 	private int stock;
+	private Date stockDate;
 	
 	
 	@Override

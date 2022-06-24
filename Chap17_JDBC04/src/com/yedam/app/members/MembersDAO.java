@@ -21,7 +21,7 @@ public class MembersDAO extends DAO {
 	// CRUD
 	// 로그인 여부
 	// 권한
-	public Member selectOne(Member member) {
+	public Member selectRole(Member member) {
 		Member loginInfo = null;
 		try {
 			connect();
@@ -45,8 +45,6 @@ public class MembersDAO extends DAO {
 				} else {
 					System.out.println("비밀번호가 일치하지 않습니다.");
 				}
-			} else {
-				System.out.println("아이디가 존재하지 않습니다.");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -28,7 +28,7 @@ public class Management {
 			int menuNo = menuSelect();
 			if (menuNo == 1) {
 				// 제품 정보 관리
-				// (ProductInfoManagemen에서 back했을 때 얘는 생성자에 있기 때문에 실행될 수가 없음.
+				// (ProductInfoManagement에서 back했을 때 얘는 생성자에 있기 때문에 실행될 수가 없음.
 				new ProductInfoManagement(); // 이 안에서 간단한 기능이 실행되는 것이 아니라 프로그램을 실행시키도록
 			} else if (menuNo == 2) {
 				// 제품 관리

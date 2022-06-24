@@ -26,13 +26,13 @@ public class ProductDAO extends DAO {
 		try {
 			connect();
 
-			String sql = "INSERT INTO product (isn, product_name, brand, price, category)"
-					+ " VALUES (products_seq.nextval, ?, ?, ? ,?)";
+			String sql = "INSERT INTO product (isn, product_name, brand, price, p_category)"
+					+ " VALUES (product_seq.nextval, ?, ?, ? ,?)";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(2, product.getProductName());
-			pstmt.setString(3, product.getBrand());
-			pstmt.setInt(4, product.getPrice());
-			pstmt.setInt(5, product.getCategory());
+			pstmt.setString(1, product.getProductName());
+			pstmt.setString(2, product.getBrand());
+			pstmt.setInt(3, product.getPrice());
+			pstmt.setInt(4, product.getCategory());
 
 			int result = pstmt.executeUpdate();
 
@@ -76,7 +76,7 @@ public class ProductDAO extends DAO {
 		try {
 			connect();
 
-			String sql = "DELETE FROM products WHERE isn = " + isn; 
+			String sql = "DELETE FROM product WHERE isn = " + isn;
 			stmt = con.createStatement();
 
 			int result = stmt.executeUpdate(sql);
@@ -94,12 +94,13 @@ public class ProductDAO extends DAO {
 	}
 
 	// 브랜드로 조회
-	public Product findBand(String brand) {
+	public List<Product> findBrand() {
+		List<Product> list = new ArrayList<>();
 		Product product = null;
 
 		try {
 			connect();
-			String sql = "SELECT * FROM product WHERE brand = ?";
+			String sql = "SELECT * FROM product WHERE brand = ? ORDER BY brand";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, "brand");
 			rs = pstmt.executeQuery();
@@ -110,26 +111,27 @@ public class ProductDAO extends DAO {
 				product.setProductName(rs.getString("product_name"));
 				product.setBrand(rs.getString("brand"));
 				product.setPrice(rs.getInt("price"));
-				product.setCategory(rs.getInt("category"));
+				product.setCategory(rs.getInt("p_category"));
 				product.setStock(rs.getInt("stock"));
+				list.add(product);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
 		}
-		return product;
+		return list;
 	}
 
-	// 상품명 일부가 들어가면 그 리스트 조회
-	public List<Product> findBrand(String productName) {
+	// 상품명으로 조회
+	public List<Product> findName(String productName) {
 		List<Product> list = new ArrayList<>();
 		Product product = null;
 
 		try {
 			connect();
 
-			String sql = "SELECT * FROM books WHERE product_name Like '%" + productName + "%'";
+			String sql = "SELECT * FROM product WHERE product_name Like '%" + productName + "%' ORDER BY product_name";
 			stmt = con.createStatement();
 
 			rs = stmt.executeQuery(sql);
@@ -140,7 +142,7 @@ public class ProductDAO extends DAO {
 				product.setProductName(rs.getString("product_name"));
 				product.setBrand(rs.getString("brand"));
 				product.setPrice(rs.getInt("price"));
-				product.setCategory(rs.getInt("category"));
+				product.setCategory(rs.getInt("p_category"));
 				product.setStock(rs.getInt("stock"));
 				list.add(product);
 			}
@@ -153,16 +155,16 @@ public class ProductDAO extends DAO {
 	}
 
 	// 상품 카테고리별 리스트 조회
-	public List<Product> findCategory(int category) {
+	public List<Product> findCategory() {
 		List<Product> list = new ArrayList<>();
 		Product product = null;
 
 		try {
 			connect();
 
-			String sql = "SELECT * FROM books WHERE category = ? ";
+			String sql = "SELECT * FROM product WHERE p_category = ? ORDER BY p_category";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, "brand");
+			pstmt.setString(1, "p_category");
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -171,7 +173,7 @@ public class ProductDAO extends DAO {
 				product.setProductName(rs.getString("product_name"));
 				product.setBrand(rs.getString("brand"));
 				product.setPrice(rs.getInt("price"));
-				product.setCategory(rs.getInt("category"));
+				product.setCategory(rs.getInt("p_category"));
 				product.setStock(rs.getInt("stock"));
 				list.add(product);
 			}
@@ -191,7 +193,8 @@ public class ProductDAO extends DAO {
 		try {
 			connect();
 			// price가 price1보다 작거나 같고 price2보다는 클 때
-			String sql = "SELECT * FROM product WHERE price <= " + price1 + " AND price >" + price2;
+			String sql = "SELECT * FROM product WHERE price <= " + price2 + " AND price >=" + price1
+					+ " ORDER BY product_name";
 
 			stmt = con.createStatement();
 
@@ -203,7 +206,7 @@ public class ProductDAO extends DAO {
 				product.setProductName(rs.getString("product_name"));
 				product.setBrand(rs.getString("brand"));
 				product.setPrice(rs.getInt("price"));
-				product.setCategory(rs.getInt("category"));
+				product.setCategory(rs.getInt("p_category"));
 				product.setStock(rs.getInt("stock"));
 				list.add(product);
 			}
@@ -214,9 +217,9 @@ public class ProductDAO extends DAO {
 		}
 		return list;
 	}
-	
-	//대여 가능한 리스트만 조회
-	public List<Product> canDoRental() {
+
+	// 대여 가능한 리스트만 조회
+	public List<Product> inStock() {
 		List<Product> list = new ArrayList<>();
 		Product product = null;
 
@@ -234,7 +237,7 @@ public class ProductDAO extends DAO {
 				product.setProductName(rs.getString("product_name"));
 				product.setBrand(rs.getString("brand"));
 				product.setPrice(rs.getInt("price"));
-				product.setCategory(rs.getInt("category"));
+				product.setCategory(rs.getInt("p_category"));
 				product.setStock(rs.getInt("stock"));
 				list.add(product);
 			}
@@ -244,6 +247,63 @@ public class ProductDAO extends DAO {
 			disconnect();
 		}
 		return list;
+	}
+
+	// 전체 리스트 조회
+	public List<Product> showAllList() {
+		List<Product> list = new ArrayList<>();
+		Product product = null;
+
+		try {
+			connect();
+
+			String sql = "SELECT * FROM product";
+			stmt = con.createStatement();
+
+			rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				product = new Product();
+				product.setIsn(rs.getInt("isn"));
+				product.setProductName(rs.getString("product_name"));
+				product.setBrand(rs.getString("brand"));
+				product.setPrice(rs.getInt("price"));
+				product.setCategory(rs.getInt("p_category"));
+				product.setStock(rs.getInt("stock"));
+				list.add(product);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
+	}
+	//수정에서 쓸 isn조회
+	public Product findIsn(int isn) {
+		Product product = null;
+		
+		try {
+			connect();
+			String sql = "SELECT * FROM isn = " + isn + " ORDER BY isn";
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				product = new Product();
+				product.setIsn(rs.getInt("isn"));
+				product.setProductName(rs.getString("product_name"));
+				product.setBrand(rs.getString("brand"));
+				product.setPrice(rs.getInt("price"));
+				product.setCategory(rs.getInt("p_category"));
+				product.setStock(rs.getInt("stock"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return product;
 	}
 
 }
