@@ -137,7 +137,9 @@ public class ProductStockManagement extends Management {
 		int outAmount = tDAO.SelectAmount(productId);
 		// 재고(입고량 - 출고량)을 수정
 		int stock = inAmount - outAmount;
-
+		
+		if (outAmount > 0 ) {
+		}
 		Product product = new Product();
 		product.setProductId(productId);
 		product.setProductStock(stock);
@@ -185,12 +187,14 @@ public class ProductStockManagement extends Management {
 	}
 
 	private int inputSelect() {
-		System.out.println("분류 : 1.입고  2.출고");
+		System.out.println("분류 : 1.입고  2.출고  3.전체조회");
 		int selected = Integer.parseInt(sc.nextLine());
 		if (selected == 1) {
 			System.out.println("======== 입고내역");
-		} else {
+		} else if (selected == 2){
 			System.out.println("======== 출고내역");
+		} else if (selected == 3) {
+			System.out.println("======== 전체내역");
 		}
 		return selected;
 	}
