@@ -36,7 +36,6 @@ public class StockManagement extends Management {
 
 				// 메인으로 돌아가기
 			} else if (menuNo == 0) {
-				back();
 				break;
 
 				// 입력 오류
@@ -66,14 +65,10 @@ public class StockManagement extends Management {
 		System.out.println();
 		System.out.println("=====================================        관리       =====================================");
 		System.out.println();
-		System.out.println("    [1] 입고  | [2] 출고  | [3] 선택상품재고조회  | [4] 전체재고조회  | [5] 전체거래내역  | [0] 뒤로가기"); // role에 따라 구성된 메뉴만 출력
+		System.out.println("    [1] 입고  | [2] 출고  | [3] 선택상품재고조회  | [4] 전체재고조회  | [5] 입/출고거래내역  | [0] 뒤로가기"); // role에 따라 구성된 메뉴만 출력
 		System.out.println();
 		System.out.println("============================================================================================");
 		System.out.println();
-	}
-
-	private void back() {
-		System.out.println("메인으로");
 	}
 
 	// 입고

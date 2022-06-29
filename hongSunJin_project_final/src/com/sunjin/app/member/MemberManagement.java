@@ -30,7 +30,7 @@ public class MemberManagement extends LogInSys {
 				// 회원 정보 수정
 				updateInfoP();
 			}
-			// 주문 내역
+			// 주문 내역 - 수정필요
 			else if (menuNo == 2) {
 //				orderList();
 //				orderListInfo();
@@ -77,8 +77,8 @@ public class MemberManagement extends LogInSys {
 //		}
 //	}
 	
+	//수정필요
 	private void orderList() {
-//		String id = inputId();
 		String id = Login.getLogin().getId();
 		
 		RentalInfo info = mDAO.findRent(id);
@@ -91,12 +91,6 @@ public class MemberManagement extends LogInSys {
 			}
 		}
 
-//	private void showMyInfo() {
-//			String id = Login.getLogin().getId();
-//			Member member = mDAO.findId(id);
-//				System.out.println(member);
-//	}
-
 	// 마이페이지 메뉴
 	private void menuPrint(boolean check) {
 		// 권한에 따라 메뉴를 프린트하기 위한 것
@@ -104,7 +98,6 @@ public class MemberManagement extends LogInSys {
 			String menu1 = "";
 			// 회원[1]권한
 			menu1 += "[1] 회원정보수정 | [2] 주문내역 | [9] 회원탈퇴  | [0] 뒤로가기";
-//			menu1 += "[1] 회원정보수정 | [9] 회원탈퇴  | [0] 뒤로가기";
 			System.out.println();
 			System.out.println(
 					"======================================      메뉴      ========================================");
@@ -159,8 +152,6 @@ public class MemberManagement extends LogInSys {
 
 	// --
 	private int inputUpdatePhone() {
-		//Member member = new Member();
-		//mem = Login.getLogin().getId(); //???????? 로그인 아이디를
 		System.out.println();
 		System.out.println("                                 기존 전화번호 -> 0" + Login.getLogin().getPhone()); // 멤버의 폰번호를 가져와서 보여줌
 		System.out.println();

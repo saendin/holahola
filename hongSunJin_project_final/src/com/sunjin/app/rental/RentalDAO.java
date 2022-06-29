@@ -124,7 +124,7 @@ public class RentalDAO extends DAO {
 		}
 		return rental;
 	}
-	
+	// 받아온 아이디값으로 리스트 출력
 //	public List<RentalInfo> selectList(String id) {
 //		List<RentalInfo> list = new ArrayList<>();
 //		try {

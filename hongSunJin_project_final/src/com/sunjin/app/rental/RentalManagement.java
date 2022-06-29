@@ -39,22 +39,6 @@ public class RentalManagement extends Management {
 		}
 	}
 
-//	private void dealList() {
-//		while (true) {
-//			// 품번 찾아오기
-//			int findIsn = putIsn();
-//			Product isn = proDAO.findIsn(findIsn);
-//			if (isn == null) {
-//				System.out.println("대여하신 품번이 아닙니다 !");
-//			} else {
-//				int return = returnDAO.SelectedAmount(findIsn);
-//				if (return == 0) {
-//					System.out.println("반납이 완료되었습니다 ! ");
-//			}
-//		}
-//	}
-//	}
-
 	protected void menuPrint() {
 		System.out.println();
 		System.out.println("=====================================       대여/반납       =====================================");
@@ -78,23 +62,6 @@ public class RentalManagement extends Management {
 			}
 		}
 	}
-
-//	//전체 리스트 보기 -> 대여 가능한 리스트 보기로 바꿈
-//	private void showAllList() {
-//		System.out.println();
-//		System.out.println();
-//		System.out.println();
-//		System.out
-//				.println("=====================================      전체 상품      =====================================");
-//		System.out.println();
-//		List<Product> list = proDAO.showAllList();
-//		System.out.println("검색결과: " + list.size() + "개");
-//		System.out.println();
-//
-//		for (Product product : list) {
-//			System.out.println(product);
-//		}
-//	}
 
 	// 렌탈
 	private void rentOut() {

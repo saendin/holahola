@@ -7,6 +7,10 @@ import java.util.List;
 
 import com.sunjin.app.common.DAO;
 
+
+// 재고량은 따로 프로그램에서 처리.
+// 여기서는 그냥 출고량만 처리할 것.
+
 public class StockOutDAO extends DAO {
 	// 싱글톤 생성
 	private static StockOutDAO dao = null;
@@ -101,7 +105,7 @@ public class StockOutDAO extends DAO {
 		try {
 			connect();
 
-			String sql = "SELECT o.stock_date, o.isn, p.product_name, o.amount FROM product p JOIN stock_out o"
+			String sql = "SELECT o.stock_date, o.isn,p.brand, p.product_name, o.amount FROM product p JOIN stock_out o"
 					+ " ON p.isn = o.isn" + " ORDER BY o.stock_date DESC";
 
 			stmt = con.createStatement();
@@ -112,10 +116,10 @@ public class StockOutDAO extends DAO {
 				StockInfo info = new StockInfo();
 				info.setStockDate(rs.getDate("stock_date"));
 				info.setIsn(rs.getInt("isn"));
+				info.setBrand(rs.getString("brand"));
 				info.setProductName(rs.getString("product_name"));
 				info.setAmount(rs.getInt("amount"));
-
-				list.add(info); // 리스트에 dealInfo값들 추가 ㄱ
+				list.add(info);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -194,8 +198,5 @@ public class StockOutDAO extends DAO {
 		}
 		return list;
 	}
-
-	// 재고량은 따로 프로그램에서 처리.
-	// 여기서는 그냥 출고량만 처리할 것.
 
 }
